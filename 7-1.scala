@@ -6,21 +6,19 @@ val maps = io.Source.stdin.getLines.map { line =>
 var memo = Map.empty[String, Int]
 
 def get(v: String): Int =
-	memo.get(v) match {
-		case Some(x) => x
-		case None =>
-			val res = if (v.head.isDigit)
-				v.toInt
-			else maps(v).split(" ") match {
-				case Array(a, "AND", b) => get(a) & get(b)
-				case Array(a, "OR", b) => get(a) | get(b)
-				case Array("NOT", a) => ~get(a)
-				case Array(a, "RSHIFT", b) => get(a) >> get(b)
-				case Array(a, "LSHIFT", b) => get(a) << get(b)
-				case Array(x) => get(x)
-			}
-			memo += (v -> res)
-			res
-	}
+	memo.getOrElse(v, {
+		val res = if (v.head.isDigit)
+			v.toInt
+		else maps(v).split(" ") match {
+			case Array(a, "AND", b) => get(a) & get(b)
+			case Array(a, "OR", b) => get(a) | get(b)
+			case Array("NOT", a) => ~get(a)
+			case Array(a, "RSHIFT", b) => get(a) >> get(b)
+			case Array(a, "LSHIFT", b) => get(a) << get(b)
+			case Array(x) => get(x)
+		}
+		memo += v -> res
+		res
+	})
 
 println(get("a"))

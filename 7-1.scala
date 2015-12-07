@@ -1,4 +1,4 @@
-val maps = io.Source.stdin.getLines.map { line =>
+val wires = io.Source.stdin.getLines.map { line =>
 	val Array(ex, v) = line.split(" -> ")
 	v -> ex
 }.toMap
@@ -9,7 +9,7 @@ def get(v: String): Int =
 	memo.getOrElse(v, {
 		val res = if (v.head.isDigit)
 			v.toInt
-		else maps(v).split(" ") match {
+		else wires(v).split(" ") match {
 			case Array(a, "AND", b) => get(a) & get(b)
 			case Array(a, "OR", b) => get(a) | get(b)
 			case Array("NOT", a) => ~get(a)

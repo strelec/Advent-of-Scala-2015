@@ -23,8 +23,6 @@ while(
 	! threeStraight(line) ||
 	  line.contains("iol".toSet) ||
 	! twoPairs(line)
-) {
-	line = inc(line)
-}
+) line = inc(line)
 
 println(line.reverse.mkString)

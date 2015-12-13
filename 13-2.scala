@@ -4,9 +4,9 @@ val distances = io.Source.stdin.getLines.map { case regex(a, sign, distance, b) 
 	(a, b) -> distance.toInt * (if (sign == "lose") -1 else 1)
 }.toMap
 
-println(distances.flatMap { case ((a, b), _) =>
-	Seq(a, b)
-}.toVector.distinct.permutations.map { path =>
+println(distances.keys.flatMap {
+	case (a, b) => Seq(a, b)
+}.toVector.permutations.map { path =>
 	val costs = (path :+ path.head).sliding(2).map { case Seq(a, b) =>
 		distances(a, b) + distances(b, a)
 	}.toVector
